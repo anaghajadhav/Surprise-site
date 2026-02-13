@@ -1,124 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Create Surprise</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<title>Create Balloon Surprise</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
 body{
-margin:0;
 font-family:Arial;
-background:linear-gradient(45deg,#ff0080,#ff4d6d);
+background:black;
 color:white;
 text-align:center;
+padding-top:30px
 }
-
-.container{
-padding-top:60px;
-}
-
-h1{
-font-size:40px;
-}
-
-.card{
-background:white;
-color:black;
-width:90%;
-max-width:400px;
-margin:auto;
-padding:25px;
-border-radius:20px;
-box-shadow:0 0 30px rgba(0,0,0,0.3);
-animation:zoom 0.8s ease;
-}
-
 input,textarea{
 width:90%;
+max-width:350px;
 padding:12px;
-margin:10px;
+margin:8px;
 border-radius:10px;
-border:none;
-background:#f1f1f1;
+border:none
 }
-
 button{
-padding:14px 35px;
+padding:15px 35px;
 background:#ff0080;
-color:white;
 border:none;
-font-size:18px;
-border-radius:12px;
-cursor:pointer;
-}
-
-button:hover{
-background:#ff4d6d;
-}
-
-@keyframes zoom{
-from{transform:scale(0)}
-to{transform:scale(1)}
-}
-
-/* floating hearts */
-.heart{
-position:fixed;
-bottom:-10px;
-font-size:20px;
-animation:float 6s linear infinite;
 color:white;
-}
-
-@keyframes float{
-0%{transform:translateY(0)}
-100%{transform:translateY(-100vh)}
+font-size:18px;
+border-radius:12px
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
-<h1>🎁 Create Magical Surprise</h1>
+<h1>🎁 Create Balloon Surprise</h1>
 
-<div class="card">
 <form id="f">
 <input name="name" placeholder="Enter name" required><br>
-<input name="password" placeholder="Set password" required><br>
-<input name="music" placeholder="Music link (mp3)"><br>
-<input type="file" name="photo" required><br>
-<textarea name="message" placeholder="Your message"></textarea><br>
-<button>Create Surprise</button>
+
+<h3>Balloon 1</h3>
+<input type="file" name="img1" required>
+<textarea name="msg1" placeholder="Message 1"></textarea>
+
+<h3>Balloon 2</h3>
+<input type="file" name="img2" required>
+<textarea name="msg2" placeholder="Message 2"></textarea>
+
+<h3>Balloon 3</h3>
+<input type="file" name="img3" required>
+<textarea name="msg3" placeholder="Message 3"></textarea>
+
+<h3>Balloon 4</h3>
+<input type="file" name="img4" required>
+<textarea name="msg4" placeholder="Message 4"></textarea>
+
+<h3>Balloon 5</h3>
+<input type="file" name="img5" required>
+<textarea name="msg5" placeholder="Message 5"></textarea>
+
+<br><br>
+<button>Create Surprise Link</button>
 </form>
 
-<h3 id="link"></h3>
-</div>
-</div>
+<h2 id="link"></h2>
 
 <script>
-// submit
 document.getElementById("f").onsubmit=async e=>{
 e.preventDefault();
 let d=new FormData(e.target);
 let r=await fetch("/create",{method:"POST",body:d});
 let j=await r.json();
 document.getElementById("link").innerHTML=
-"💌 Share this link:<br><a style='color:yellow' target='_blank' href='"+j.link+"'>"+j.link+"</a>";
+"💌 Your surprise link:<br><a target='_blank' href='"+j.link+"'>"+j.link+"</a>";
 }
-
-// floating hearts
-setInterval(()=>{
-let heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="💖";
-heart.style.left=Math.random()*100+"%";
-heart.style.fontSize=(20+Math.random()*20)+"px";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),6000);
-},500);
 </script>
 
 </body>
 </html>
+
 
