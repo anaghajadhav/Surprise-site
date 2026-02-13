@@ -2,57 +2,123 @@
 <html>
 <head>
 <title>Create Surprise</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
+margin:0;
 font-family:Arial;
-background:black;
+background:linear-gradient(45deg,#ff0080,#ff4d6d);
 color:white;
 text-align:center;
-padding-top:40px
 }
+
+.container{
+padding-top:60px;
+}
+
+h1{
+font-size:40px;
+}
+
+.card{
+background:white;
+color:black;
+width:90%;
+max-width:400px;
+margin:auto;
+padding:25px;
+border-radius:20px;
+box-shadow:0 0 30px rgba(0,0,0,0.3);
+animation:zoom 0.8s ease;
+}
+
 input,textarea{
-width:300px;
+width:90%;
 padding:12px;
 margin:10px;
 border-radius:10px;
-border:none
-}
-button{
-padding:14px 30px;
-background:#ff4d6d;
 border:none;
+background:#f1f1f1;
+}
+
+button{
+padding:14px 35px;
+background:#ff0080;
 color:white;
+border:none;
 font-size:18px;
 border-radius:12px;
+cursor:pointer;
+}
+
+button:hover{
+background:#ff4d6d;
+}
+
+@keyframes zoom{
+from{transform:scale(0)}
+to{transform:scale(1)}
+}
+
+/* floating hearts */
+.heart{
+position:fixed;
+bottom:-10px;
+font-size:20px;
+animation:float 6s linear infinite;
+color:white;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+100%{transform:translateY(-100vh)}
 }
 </style>
 </head>
 
 <body>
 
-<h1>Create Surprise 🎁</h1>
+<div class="container">
+<h1>🎁 Create Magical Surprise</h1>
 
+<div class="card">
 <form id="f">
-<input name="name" placeholder="Name" required><br>
-<input name="password" placeholder="Password" required><br>
-<input name="music" placeholder="Music mp3 link"><br>
+<input name="name" placeholder="Enter name" required><br>
+<input name="password" placeholder="Set password" required><br>
+<input name="music" placeholder="Music link (mp3)"><br>
 <input type="file" name="photo" required><br>
-<textarea name="message" placeholder="Message"></textarea><br>
-<button>Create</button>
+<textarea name="message" placeholder="Your message"></textarea><br>
+<button>Create Surprise</button>
 </form>
 
 <h3 id="link"></h3>
+</div>
+</div>
 
 <script>
+// submit
 document.getElementById("f").onsubmit=async e=>{
 e.preventDefault();
 let d=new FormData(e.target);
 let r=await fetch("/create",{method:"POST",body:d});
 let j=await r.json();
 document.getElementById("link").innerHTML=
-"Your link:<br><a target='_blank' href='"+j.link+"'>"+j.link+"</a>";
+"💌 Share this link:<br><a style='color:yellow' target='_blank' href='"+j.link+"'>"+j.link+"</a>";
 }
+
+// floating hearts
+setInterval(()=>{
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="💖";
+heart.style.left=Math.random()*100+"%";
+heart.style.fontSize=(20+Math.random()*20)+"px";
+document.body.appendChild(heart);
+setTimeout(()=>heart.remove(),6000);
+},500);
 </script>
 
 </body>
 </html>
+
