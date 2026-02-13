@@ -137,17 +137,55 @@ to{transform:translate(-50%,-50%) scale(1)}
 ${balloons}
 
 <script>
-let popped=[false,false,false,false,false];
+let opened=[false,false,false,false,false];
+let totalOpened=0;
 
 function pop(i){
+if(!opened[i]){
+opened[i]=true;
+totalOpened++;
+}
 document.getElementById("card"+i).style.display="block";
 document.querySelectorAll(".balloon")[i].innerHTML="💥";
+
+if(totalOpened===5){
+setTimeout(showFinal,800);
+}
 }
 
 function closeCard(i){
 document.getElementById("card"+i).style.display="none";
 }
+
+function showFinal(){
+let final=document.createElement("div");
+final.innerHTML=`
+<div style="
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:black;
+color:white;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:9999;
+text-align:center;
+">
+<h1 style="font-size:40px">❤️ Will you be my valentine forever ❤️</h1>
+<p style="font-size:22px">You are my everything</p>
+
+<audio autoplay loop>
+<source src="/uploads/Download Love Story By Taylor Swift (MobilesRingtones.com).mp3" type="audio/mpeg">
+</audio>
+
+</div>
+`;
+document.body.appendChild(final);
+}
 </script>
+
 
 
 </body>
