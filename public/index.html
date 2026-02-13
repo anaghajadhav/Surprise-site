@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Create Surprise</title>
+<style>
+body{
+font-family:Arial;
+background:black;
+color:white;
+text-align:center;
+padding-top:40px
+}
+input,textarea{
+width:300px;
+padding:12px;
+margin:10px;
+border-radius:10px;
+border:none
+}
+button{
+padding:14px 30px;
+background:#ff4d6d;
+border:none;
+color:white;
+font-size:18px;
+border-radius:12px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Create Surprise 🎁</h1>
+
+<form id="f">
+<input name="name" placeholder="Name" required><br>
+<input name="password" placeholder="Password" required><br>
+<input name="music" placeholder="Music mp3 link"><br>
+<input type="file" name="photo" required><br>
+<textarea name="message" placeholder="Message"></textarea><br>
+<button>Create</button>
+</form>
+
+<h3 id="link"></h3>
+
+<script>
+document.getElementById("f").onsubmit=async e=>{
+e.preventDefault();
+let d=new FormData(e.target);
+let r=await fetch("/create",{method:"POST",body:d});
+let j=await r.json();
+document.getElementById("link").innerHTML=
+"Your link:<br><a target='_blank' href='"+j.link+"'>"+j.link+"</a>";
+}
+</script>
+
+</body>
+</html>
