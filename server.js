@@ -113,11 +113,6 @@ ${balloons}
 <script>
 let popped=[false,false,false,false,false];
 
-// random balloon positions
-document.querySelectorAll(".balloon").forEach(b=>{
-b.style.left=Math.random()*90+"%";
-b.style.top=Math.random()*80+"%";
-});
 
 function pop(i){
 if(popped[i]) return;
