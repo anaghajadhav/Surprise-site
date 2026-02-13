@@ -113,16 +113,18 @@ ${balloons}
 <script>
 let popped=[false,false,false,false,false];
 
-
 function pop(i){
 if(popped[i]) return;
 popped[i]=true;
+
+document.querySelectorAll(".balloon")[i].innerHTML="💥";
+
 setTimeout(()=>{
 let c=document.getElementById("card"+i);
 c.style.display="block";
 document.body.appendChild(c);
 },300);
-
+}
 </script>
 
 </body>
