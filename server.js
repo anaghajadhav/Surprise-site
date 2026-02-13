@@ -1,5 +1,6 @@
 const express = require("express");
 const multer = require("multer");
+const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 const app = express();
 
@@ -14,7 +15,16 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
+// load database
 let db = {};
+if (fs.existsSync("database.json")) {
+  db = JSON.parse(fs.readFileSync("database.json"));
+}
+
+// save database
+function saveDB(){
+fs.writeFileSync("database.json", JSON.stringify(db,null,2));
+}
 
 // create surprise
 app.post("/create",
@@ -36,13 +46,15 @@ items:[
 ]
 };
 
+saveDB();
+
 res.json({link:`https://surprise-site-tg2b.onrender.com/s/${id}`});
 });
 
-// open surprise page
+// open page
 app.get("/s/:id",(req,res)=>{
 const data=db[req.params.id];
-if(!data) return res.send("Not found");
+if(!data) return res.send("❌ Surprise not found");
 
 let balloons="";
 data.items.forEach((it,i)=>{
@@ -65,55 +77,12 @@ res.send(`
 <title>Surprise</title>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <style>
-body{
-margin:0;
-font-family:Arial;
-background:linear-gradient(45deg,#ff0080,#ff4d6d);
-text-align:center;
-color:white;
-}
+body{margin:0;font-family:Arial;background:linear-gradient(45deg,#ff0080,#ff4d6d);text-align:center;color:white;}
 h1{margin-top:20px}
-
-.balloon{
-font-size:70px;
-cursor:pointer;
-display:inline-block;
-margin:20px;
-transition:transform .2s;
-}
-.balloon:active{transform:scale(0.8)}
-
-.card{
-display:none;
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.85);
-z-index:999;
-}
-
-.popup{
-background:white;
-color:black;
-padding:20px;
-border-radius:20px;
-max-width:320px;
-margin:auto;
-position:relative;
-top:50%;
-transform:translateY(-50%);
-}
-
-.close{
-position:absolute;
-right:12px;
-top:8px;
-font-size:22px;
-cursor:pointer;
-}
-
+.balloon{font-size:70px;cursor:pointer;display:inline-block;margin:20px}
+.card{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85)}
+.popup{background:white;color:black;padding:20px;border-radius:20px;max-width:320px;margin:auto;position:relative;top:50%;transform:translateY(-50%)}
+.close{position:absolute;right:12px;top:8px;font-size:22px;cursor:pointer}
 img{max-width:250px;border-radius:15px}
 </style>
 </head>
@@ -127,16 +96,10 @@ let opened=[false,false,false,false,false];
 let totalOpened=0;
 
 function pop(i){
-if(!opened[i]){
-opened[i]=true;
-totalOpened++;
-}
+if(!opened[i]){opened[i]=true;totalOpened++;}
 document.getElementById("card"+i).style.display="block";
 document.querySelectorAll(".balloon")[i].innerHTML="💥";
-
-if(totalOpened===5){
-setTimeout(showFinal,800);
-}
+if(totalOpened===5){setTimeout(showFinal,800);}
 }
 
 function closeCard(i){
@@ -145,7 +108,6 @@ document.getElementById("card"+i).style.display="none";
 
 function showFinal(){
 let final=document.createElement("div");
-
 final.style.position="fixed";
 final.style.top="0";
 final.style.left="0";
@@ -158,16 +120,13 @@ final.style.flexDirection="column";
 final.style.justifyContent="center";
 final.style.alignItems="center";
 final.style.zIndex="9999";
-final.style.textAlign="center";
-
-final.innerHTML = \`
+final.innerHTML=\`
 <h1 style="font-size:40px">❤️ Will you be my forever valentine ❤️</h1>
 <p style="font-size:22px">You are my everything</p>
 <audio autoplay loop>
 <source src="/uploads/love.mp3" type="audio/mpeg">
 </audio>
 \`;
-
 document.body.appendChild(final);
 }
 </script>
@@ -178,3 +137,4 @@ document.body.appendChild(final);
 });
 
 app.listen(10000);
+
