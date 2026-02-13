@@ -49,8 +49,11 @@ data.items.forEach((it,i)=>{
 balloons+=`
 <div class="balloon" onclick="pop(${i})">🎈</div>
 <div id="card${i}" class="card">
+<div class="popup">
+<span class="close" onclick="closeCard(${i})">❌</span>
 <img src="${it.img}">
 <h2>${it.msg}</h2>
+</div>
 </div>
 `;
 });
@@ -83,18 +86,41 @@ transition:transform .2s;
 transform:scale(0.8);
 }
 
+
 .card{
 display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.8);
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+.popup{
 background:white;
 color:black;
 padding:20px;
 border-radius:20px;
-box-shadow:0 0 20px black;
-margin:20px auto;
-width:80%;
 max-width:320px;
-animation:zoom .5s;
+margin:auto;
+position:relative;
+top:50%;
+transform:translateY(-50%);
+animation:zoom .3s;
 }
+
+.close{
+position:absolute;
+right:10px;
+top:5px;
+font-size:22px;
+cursor:pointer;
+}
+
 
 img{max-width:250px;border-radius:15px}
 
@@ -114,18 +140,15 @@ ${balloons}
 let popped=[false,false,false,false,false];
 
 function pop(i){
-if(popped[i]) return;
-popped[i]=true;
-
+document.getElementById("card"+i).style.display="block";
 document.querySelectorAll(".balloon")[i].innerHTML="💥";
+}
 
-setTimeout(()=>{
-let c=document.getElementById("card"+i);
-c.style.display="block";
-document.body.appendChild(c);
-},300);
+function closeCard(i){
+document.getElementById("card"+i).style.display="none";
 }
 </script>
+
 
 </body>
 </html>
