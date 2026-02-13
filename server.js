@@ -160,8 +160,9 @@ document.getElementById("card"+i).style.display="none";
 
 function showFinal(){
 let final=document.createElement("div");
-final.innerHTML=`
-<div style="
+
+final.innerHTML = `
+<div style='
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
@@ -172,9 +173,9 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 z-index:9999;
-text-align:center;
-">
-<h1 style="font-size:40px">❤️ Will you be my valentine forever ❤️</h1>
+text-align:center;'>
+
+<h1 style="font-size:40px">❤️ Will you be my forever  valentine❤️</h1>
 <p style="font-size:22px">You are my everything</p>
 
 <audio autoplay loop>
@@ -183,8 +184,10 @@ text-align:center;
 
 </div>
 `;
+
 document.body.appendChild(final);
 }
+
 </script>
 
 
