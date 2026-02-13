@@ -85,17 +85,17 @@ transform:scale(0.8);
 
 .card{
 display:none;
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
 background:white;
 color:black;
 padding:20px;
 border-radius:20px;
-box-shadow:0 0 30px black;
+box-shadow:0 0 20px black;
+margin:20px auto;
+width:80%;
+max-width:320px;
 animation:zoom .5s;
 }
+
 img{max-width:250px;border-radius:15px}
 
 @keyframes zoom{
@@ -117,11 +117,12 @@ let popped=[false,false,false,false,false];
 function pop(i){
 if(popped[i]) return;
 popped[i]=true;
-document.querySelectorAll(".balloon")[i].innerHTML="💥";
 setTimeout(()=>{
-document.getElementById("card"+i).style.display="block";
+let c=document.getElementById("card"+i);
+c.style.display="block";
+document.body.appendChild(c);
 },300);
-}
+
 </script>
 
 </body>
