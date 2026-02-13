@@ -72,15 +72,15 @@ overflow:hidden;
 h1{margin-top:20px}
 
 .balloon{
-font-size:60px;
+font-size:70px;
 cursor:pointer;
-position:absolute;
-animation:float 6s infinite;
+display:inline-block;
+margin:20px;
+transition:transform .2s;
 }
 
-@keyframes float{
-0%{transform:translateY(100vh)}
-100%{transform:translateY(-120vh)}
+.balloon:active{
+transform:scale(0.8);
 }
 
 .card{
