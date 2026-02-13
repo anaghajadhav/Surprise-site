@@ -16,7 +16,7 @@ const upload = multer({ storage });
 
 let db = {};
 
-// create surprise (5 images)
+// create surprise
 app.post("/create",
 upload.fields([
 {name:"img1"},{name:"img2"},{name:"img3"},{name:"img4"},{name:"img5"}
@@ -39,7 +39,7 @@ items:[
 res.json({link:`https://surprise-site-tg2b.onrender.com/s/${id}`});
 });
 
-// open balloon page
+// open surprise page
 app.get("/s/:id",(req,res)=>{
 const data=db[req.params.id];
 if(!data) return res.send("Not found");
@@ -48,6 +48,7 @@ let balloons="";
 data.items.forEach((it,i)=>{
 balloons+=`
 <div class="balloon" onclick="pop(${i})">🎈</div>
+
 <div id="card${i}" class="card">
 <div class="popup">
 <span class="close" onclick="closeCard(${i})">❌</span>
@@ -70,7 +71,6 @@ font-family:Arial;
 background:linear-gradient(45deg,#ff0080,#ff4d6d);
 text-align:center;
 color:white;
-overflow:hidden;
 }
 h1{margin-top:20px}
 
@@ -81,11 +81,7 @@ display:inline-block;
 margin:20px;
 transition:transform .2s;
 }
-
-.balloon:active{
-transform:scale(0.8);
-}
-
+.balloon:active{transform:scale(0.8)}
 
 .card{
 display:none;
@@ -94,9 +90,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.8);
-justify-content:center;
-align-items:center;
+background:rgba(0,0,0,0.85);
 z-index:999;
 }
 
@@ -110,31 +104,22 @@ margin:auto;
 position:relative;
 top:50%;
 transform:translateY(-50%);
-animation:zoom .3s;
 }
 
 .close{
 position:absolute;
-right:10px;
-top:5px;
+right:12px;
+top:8px;
 font-size:22px;
 cursor:pointer;
 }
 
-
 img{max-width:250px;border-radius:15px}
-
-@keyframes zoom{
-from{transform:scale(0)}
-to{transform:scale(1)}
-}
-
 </style>
 </head>
 
 <body>
 <h1>🎉 Surprise for ${data.name}</h1>
-
 ${balloons}
 
 <script>
@@ -161,36 +146,31 @@ document.getElementById("card"+i).style.display="none";
 function showFinal(){
 let final=document.createElement("div");
 
-final.innerHTML = `
-<div style='
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:black;
-color:white;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:9999;
-text-align:center;'>
+final.style.position="fixed";
+final.style.top="0";
+final.style.left="0";
+final.style.width="100%";
+final.style.height="100%";
+final.style.background="black";
+final.style.color="white";
+final.style.display="flex";
+final.style.flexDirection="column";
+final.style.justifyContent="center";
+final.style.alignItems="center";
+final.style.zIndex="9999";
+final.style.textAlign="center";
 
-<h1 style="font-size:40px">❤️ Will you be my forever  valentine❤️</h1>
+final.innerHTML = \`
+<h1 style="font-size:40px">❤️ Will you be my forever valentine ❤️</h1>
 <p style="font-size:22px">You are my everything</p>
-
 <audio autoplay loop>
 <source src="/uploads/love.mp3" type="audio/mpeg">
 </audio>
-
-</div>
-`;
+\`;
 
 document.body.appendChild(final);
 }
-
 </script>
-
-
 
 </body>
 </html>
@@ -198,5 +178,3 @@ document.body.appendChild(final);
 });
 
 app.listen(10000);
-
-
