@@ -47,5 +47,93 @@ if(!data) return res.send("Not found");
 let balloons="";
 data.items.forEach((it,i)=>{
 balloons+=`
-<div class="ba
+<div class="balloon" onclick="pop(${i})">🎈</div>
+<div id="card${i}" class="card">
+<img src="${it.img}">
+<h2>${it.msg}</h2>
+</div>
+`;
+});
+
+res.send(`
+<html>
+<head>
+<title>Surprise</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(45deg,#ff0080,#ff4d6d);
+text-align:center;
+color:white;
+overflow:hidden;
+}
+h1{margin-top:20px}
+
+.balloon{
+font-size:60px;
+cursor:pointer;
+position:absolute;
+animation:float 6s infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(100vh)}
+100%{transform:translateY(-120vh)}
+}
+
+.card{
+display:none;
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+background:white;
+color:black;
+padding:20px;
+border-radius:20px;
+box-shadow:0 0 30px black;
+animation:zoom .5s;
+}
+img{max-width:250px;border-radius:15px}
+
+@keyframes zoom{
+from{transform:translate(-50%,-50%) scale(0)}
+to{transform:translate(-50%,-50%) scale(1)}
+}
+</style>
+</head>
+
+<body>
+<h1>🎉 Surprise for ${data.name}</h1>
+
+${balloons}
+
+<script>
+let popped=[false,false,false,false,false];
+
+// random balloon positions
+document.querySelectorAll(".balloon").forEach(b=>{
+b.style.left=Math.random()*90+"%";
+b.style.top=Math.random()*80+"%";
+});
+
+function pop(i){
+if(popped[i]) return;
+popped[i]=true;
+document.querySelectorAll(".balloon")[i].innerHTML="💥";
+setTimeout(()=>{
+document.getElementById("card"+i).style.display="block";
+},300);
+}
+</script>
+
+</body>
+</html>
+`);
+});
+
+app.listen(10000);
+
 
