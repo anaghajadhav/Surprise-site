@@ -125,9 +125,10 @@ cursor:pointer;
 img{max-width:250px;border-radius:15px}
 
 @keyframes zoom{
-from{transform:translate(-50%,-50%) scale(0)}
-to{transform:translate(-50%,-50%) scale(1)}
+from{transform:scale(0)}
+to{transform:scale(1)}
 }
+
 </style>
 </head>
 
@@ -177,7 +178,7 @@ text-align:center;
 <p style="font-size:22px">You are my everything</p>
 
 <audio autoplay loop>
-<source src="/uploads/Download Love Story By Taylor Swift (MobilesRingtones.com).mp3" type="audio/mpeg">
+<source src="/uploads/love.mp3" type="audio/mpeg">
 </audio>
 
 </div>
